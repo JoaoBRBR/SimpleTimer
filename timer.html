@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>timer</title>
+</head>
+<style>
+    body{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background-color: black;
+        overflow: hidden;
+        transition: 10s ease-in-out;
+    }
+    button{
+        cursor: pointer;
+        display: inline-block;
+        font-size:40px;
+    }
+    h1{
+        color: white;
+        display: inline-block;
+    }
+    #timer{
+        display: none;
+    }
+    #timer h1{
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size:300px;
+    }
+    #fexa{
+        position: absolute;
+        bottom: 20px;
+        right: 10px;
+        cursor: pointer;
+        z-index: 1;
+    }
+    #anima{
+        display:none;
+    }
+    #anima:checked ~ #timer h1{
+        color: red;
+    }
+</style>
+<body>
+    <div id="botoes">
+        <button onclick="ativa();min = 14" >15m</button>
+        <button onclick="ativa();min = 29" >30m</button>
+        <button onclick="ativa();min = 39" >40m</button>
+        <button onclick="ativa();min = 59" >60m</button>
+    </div>
+    <input id="anima" type="checkbox">
+    <div id="timer">
+        <h1 id="mins"></h1><h1 id="secs"></h1>
+    </div>
+    <button id="fexa" onclick="fecha();min = 100">X</button>
+
+    <script>
+        var pisca = true;
+        var min = 100;
+        var sec = 0;
+    
+        function fecha(){
+            document.getElementById("timer").style.display = "none";
+            document.getElementById("botoes").style.display = "inline-block";
+        }
+
+        function ativa(){
+            sec = 60;
+            document.getElementById("timer").style.display = "block";
+            document.getElementById("botoes").style.display = "none";
+        }
+    
+        var tempo = setInterval(function() {
+    
+            if(min > 0){
+                document.getElementById("mins").innerHTML =  min + "m." 
+            }else{
+                document.getElementById("mins").innerHTML = null; 
+            }
+
+            document.getElementById("secs").innerHTML = sec + "s"
+
+            sec--;
+
+            if(min <= 3){
+                document.body.style.background = "red";
+                
+                if(min<=1){
+                    if(pisca){
+                        document.getElementById("anima").checked = true;
+                        pisca=false;
+                    }else{
+                        document.getElementById("anima").checked = false;
+                        pisca=true;
+                    }
+                }
+            }else{
+                document.body.style.background = "black";
+            }
+
+            if(min <= 0 && sec <= 0){
+                document.getElementById("mins").innerHTML = "esgo" 
+                document.getElementById("secs").innerHTML = "tado" 
+            }else if(sec <= 0) {
+                min--;
+                sec = 60;
+            }
+
+        }, 1000)
+    </script>
+</body>
+
+</html>
